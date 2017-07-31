@@ -1,0 +1,44 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+  <li class="breadcrumb-item"><a routerLink="/asset">Assets</a></li>
+  <li class="breadcrumb-item active">Add Assets</li>
+</ol>
+<form (ngSubmit)="onSubmit()" #thisForm="ngForm">
+  <div
+    class="form-group"
+  >
+    <label for="name">Name</label>
+    <input
+      type="text"
+      id="name"
+      class="form-control"
+      autofocus
+      name="form.name"
+      required
+      [(ngModel)]="form.name"
+    >
+  </div>
+  <div class="form-group">
+    <label for="asset_type_id">Asset Type</label>
+    <select
+      class="form-control"
+      id="asset_type_id"
+      name="form.asset_type_id"
+      [(ngModel)]="form.asset_type_id"
+    >
+      <option
+        *ngFor="let asset of (assetTypes$ | async)"
+        [value]="asset.id"
+      >{{ asset.name }}
+      </option>
+    </select>
+  </div>
+  <button
+    type="submit"
+    class="btn btn-success"
+    [disabled]="!thisForm.form.valid"
+  >
+    Add
+  </button>
+
+</form>
