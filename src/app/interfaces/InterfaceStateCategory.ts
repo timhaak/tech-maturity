@@ -5,5 +5,5 @@ import {InterfaceCategoryCapabilityLevel} from './InterfaceCategoryCapabilityLev
 export interface InterfaceStateCategory {
   categories: InterfaceCategory[];
   category_capabilities: InterfaceCategoryCapability[];
-  category_capability_level: InterfaceCategoryCapabilityLevel[];
+  category_capability_levels: InterfaceCategoryCapabilityLevel[];
 }

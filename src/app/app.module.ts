@@ -24,16 +24,20 @@ import {AsyncLocalStorageModule} from 'angular-async-local-storage';
 import {MomentModule} from 'angular2-moment';
 import {AssetEffects} from './effects/asset.effects';
 import { AssetsComponent } from './components/asset/assets/assets.component';
+import { HomeStatsComponent } from './components/main/home-stats/home-stats.component';
+import { TestComponent } from './components/test/test/test.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AssetAddComponent,
+    AssetsComponent,
     BlankComponent,
     BodyComponent,
     HeadComponent,
     HomeComponent,
-    AssetAddComponent,
-    AssetsComponent,
+    HomeStatsComponent,
+    TestComponent,
   ],
   imports: [
     AppRoutingModule,

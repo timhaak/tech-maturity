@@ -1,0 +1,79 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+  <li class="breadcrumb-item"><a routerLink="/asset">Assets</a></li>
+  <li class="breadcrumb-item active">Asset Test</li>
+</ol>
+<ul class="nav nav-pills nav-justified">
+  <li
+    class="nav-item" *ngFor="let category of (categoryState$ | async).categories"
+    (click)="setCategory(category.id)"
+  >
+    <a class="nav-link" [ngClass]="{'active': category.id == category_id}">{{ category.name }}</a>
+  </li>
+</ul>
+<div
+  *ngIf="category_capabilities[category_capability_index]"
+  class="row stylish-color text-white">
+  <div class="col">
+    <button
+      *ngIf="category_capability_index > 0"
+      type="button"
+      class="btn btn-default"
+      ripple-radius
+    >
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="col align-items-center my-auto">
+    <h3 class="my-auto">{{ category_capabilities[category_capability_index].name }}</h3>
+  </div>
+  <div class="col text-right">
+    <button
+      *ngIf="category_capability_index < category_capabilities.length - 1"
+      type="button" class="btn btn-info" ripple-radius
+    >
+      <i class="fa fa-arrow-right" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+<table class="table table-striped table-bordered table-hover category-set-table">
+  <thead class="thead-inverse">
+  <tr>
+    <th>
+      Level
+    </th>
+    <th>
+      Recommended
+    </th>
+    <th>
+      Description
+    </th>
+  </tr>
+  </thead>
+  <tbody
+    *ngIf="category_capabilities[category_capability_index]"
+  >
+  <tr
+    *ngFor="let category_capability_level of category_capability_levels[category_capabilities[category_capability_index].id]"
+    [ngClass]="{
+    'table-success': category_capabilities[category_capability_index].minimum_category_capability_level_id ===
+      category_capability_level.level
+    }"
+  >
+    <td>
+      {{ category_capability_level.level }}
+    </td>
+    <td>
+      <span
+        *ngIf="category_capabilities[category_capability_index].minimum_category_capability_level_id ===
+      category_capability_level.level"
+      >*</span>
+    </td>
+    <td>
+      {{ category_capability_level.value}}
+    </td>
+  </tr>
+
+  </tbody>
+
+</table>

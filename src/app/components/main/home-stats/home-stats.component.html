@@ -1,0 +1,16 @@
+<div class="row text-center">
+  <div class="col asset-home-block" (click)="gotoAsset()">
+    <div class="row">
+      <div class="col">
+        <h1 class="display-4">
+          Assets
+        </h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h1>{{ (assetState$ | async).assets.length }}</h1>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,7 +7,7 @@ import {ConstantCategoryCapabilityLevels} from '../constants/ConstantCategoryCap
 export const initialState: InterfaceStateCategory = {
   categories: ConstantCategories,
   category_capabilities: ConstantCategoryCapabilities,
-  category_capability_level: ConstantCategoryCapabilityLevels,
+  category_capability_levels: ConstantCategoryCapabilityLevels,
 };
 
 export function reducer(state = initialState, action: categoryAction.Actions): InterfaceStateCategory {
@@ -24,5 +24,5 @@ export function reducer(state = initialState, action: categoryAction.Actions): I
 
 export const getCategories = (state: InterfaceStateCategory) => state.categories;
 export const getCategoryCapabilities = (state: InterfaceStateCategory) => state.category_capabilities;
-export const getCategoryCapabilityLevels = (state: InterfaceStateCategory) => state.category_capability_level;
+export const getCategoryCapabilityLevels = (state: InterfaceStateCategory) => state.category_capability_levels;
 

@@ -1,5 +1,34 @@
 @import 'variables';
 @import 'bootstrap';
 @import 'font-awesome';
+@import 'mdb';
 
+.btn.btn-rounded {
+  border-radius: 30px;
+}
+
+.asset-home-block {
+  color: $warning-color;
+  cursor: pointer;
+
+  &:hover {
+    color: $warning-color-dark;
+  }
+}
+
+.nav.nav-pills .nav-item .nav-link.active {
+  background-color: $primary-color;
+  color: $nav-pills-active-link-color;
+}
+
+.table.table-hover.category-set-table {
+  tr {
+    &:hover {
+      td {
+        background-color: bisque;
+        cursor: pointer;
+      }
+    }
+  }
+}
 

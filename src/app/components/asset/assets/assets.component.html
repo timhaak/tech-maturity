@@ -14,14 +14,17 @@
         <tbody>
         <tr *ngFor="let asset of (assetState$ | async).assets">
           <td>
-            {{ asset.name }}
+            <a  class="btn btn-outline-primary" routerLink="/test/{{asset.id}}" >{{ asset.name }}</a>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
     <div class="col">
-      <a class="btn btn-outline-primary btn-rounded" ripple-radius routerLink="/asset/add">Add Asset</a>
+      <a class="btn btn-outline-primary btn-rounded" ripple-radius routerLink="/asset/add">
+        <i class="fa fa-plus-square" aria-hidden="true"></i>
+        Add Asset
+      </a>
     </div>
   </div>
 </div>
