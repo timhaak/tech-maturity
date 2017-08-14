@@ -1,7 +1,7 @@
 import {InterfaceAsset} from './InterfaceAsset';
-import {InterfaceAssetTypes} from './InterfaceAssetTypes';
+import {InterfaceAssetType} from './InterfaceAssetType';
 
 export interface InterfaceStateAsset {
-  asset_types: InterfaceAssetTypes[];
+  asset_types: InterfaceAssetType[];
   assets: InterfaceAsset[];
 }

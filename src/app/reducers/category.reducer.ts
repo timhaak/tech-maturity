@@ -1,19 +1,25 @@
 import * as categoryAction from '../actions/category.action';
-import {ConstantCategories} from '../constants/ConstantCategories';
 import {InterfaceStateCategory} from '../interfaces/InterfaceStateCategory';
-import {ConstantCategoryCapabilities} from '../constants/ConstantCategoryCapabilities';
-import {ConstantCategoryCapabilityLevels} from '../constants/ConstantCategoryCapabilityLevels';
 
 export const initialState: InterfaceStateCategory = {
-  categories: ConstantCategories,
-  category_capabilities: ConstantCategoryCapabilities,
-  category_capability_levels: ConstantCategoryCapabilityLevels,
+  categories: [],
+  category_capabilities: [],
+  category_capability_levels: [],
 };
 
 export function reducer(state = initialState, action: categoryAction.Actions): InterfaceStateCategory {
   switch (action.type) {
     case categoryAction.CATEGORY_ADD: {
-      return Object.assign({}, state, {categories: state.categories.push(action.payload)});
+      const categories = action.payload;
+      return Object.assign({}, state, {categories});
+    }
+    case categoryAction.CATEGORY_CAPABILITY_ADD: {
+      const category_capabilities = action.payload;
+      return Object.assign({}, state, {category_capabilities});
+    }
+    case categoryAction.CATEGORY_CAPABILITY_LEVEL_ADD: {
+      const category_capability_levels = action.payload;
+      return Object.assign({}, state, {category_capability_levels});
     }
     default: {
       return state;

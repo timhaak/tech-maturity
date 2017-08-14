@@ -1,5 +1,5 @@
-export interface InterfaceAssetTypes {
-  id: string | number | null;
+export interface InterfaceAssetType {
+  id: string | null;
   created_at?: Date;
   updated_at?: Date;
   order: number;

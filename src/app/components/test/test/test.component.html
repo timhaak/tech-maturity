@@ -5,7 +5,7 @@
 </ol>
 <ul class="nav nav-pills nav-justified">
   <li
-    class="nav-item" *ngFor="let category of (categoryState$ | async).categories"
+    class="nav-item" *ngFor="let category of categories"
     (click)="setCategory(category.id)"
   >
     <a class="nav-link" [ngClass]="{'active': category.id == category_id}">{{ category.name }}</a>
@@ -14,27 +14,42 @@
 <div
   *ngIf="category_capabilities[category_capability_index]"
   class="row stylish-color text-white">
-  <div class="col">
+  <div class="col-1">
     <button
       *ngIf="category_capability_index > 0"
       type="button"
       class="btn btn-default"
       ripple-radius
+      (click)="previousQuestion()"
     >
       <i class="fa fa-arrow-left" aria-hidden="true"></i>
     </button>
   </div>
-  <div class="col align-items-center my-auto">
+  <div class="col align-items-center my-auto text-center">
     <h3 class="my-auto">{{ category_capabilities[category_capability_index].name }}</h3>
   </div>
-  <div class="col text-right">
+  <div class="col-1 text-right">
     <button
       *ngIf="category_capability_index < category_capabilities.length - 1"
-      type="button" class="btn btn-info" ripple-radius
+      type="button"
+      class="btn btn-info"
+      ripple-radius
+      (click)="nextQuestion()"
     >
       <i class="fa fa-arrow-right" aria-hidden="true"></i>
     </button>
   </div>
+</div>
+<div
+  class="progress"
+>
+  <div
+    class="progress-bar progress-bar-striped"
+    role="progressbar"
+    [style.width.%]="progress"
+    aria-valuenow="{{ progress }}"
+    aria-valuemin="0"
+    aria-valuemax="100"></div>
 </div>
 <table class="table table-striped table-bordered table-hover category-set-table">
   <thead class="thead-inverse">

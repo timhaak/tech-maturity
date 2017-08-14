@@ -1,15 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Store} from '@ngrx/store';
-import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/takeUntil';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
+import {InterfaceCategory} from '../../../interfaces/InterfaceCategory';
+import {InterfaceCategoryCapability} from '../../../interfaces/InterfaceCategoryCapability';
+import {InterfaceCategoryCapabilityLevel} from '../../../interfaces/InterfaceCategoryCapabilityLevel';
 import {InterfaceStateApp} from '../../../interfaces/InterfaceStateApp';
 import {InterfaceStateCategory} from '../../../interfaces/InterfaceStateCategory';
 import * as fromRoot from '../../../reducers';
-import {InterfaceCategoryCapability} from '../../../interfaces/InterfaceCategoryCapability';
-import {InterfaceCategoryCapabilityLevel} from '../../../interfaces/InterfaceCategoryCapabilityLevel';
 
 @Component({
   selector: 'app-test',
@@ -21,10 +22,12 @@ export class TestComponent implements OnInit, OnDestroy {
   private stop$: Subject<boolean> = new Subject();
   public asset_id: string;
   public categoryState$: Observable<InterfaceStateCategory>;
-  public category_id = '1';
+  public category_id = '';
   public category_capability_index = 0;
+  public categories: InterfaceCategory[] = [];
   public category_capabilities: InterfaceCategoryCapability[] = [];
-  public category_capability_levels: {[category_capability_id: string]: InterfaceCategoryCapabilityLevel[]} = {};
+  public category_capability_levels: { [category_capability_id: string]: InterfaceCategoryCapabilityLevel[] } = {};
+  public progress = 0;
 
   constructor(private route: ActivatedRoute,
               private store: Store<InterfaceStateApp>) {
@@ -41,28 +44,25 @@ export class TestComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit() {
-  }
-
-  ngOnDestroy() {
-    this.stop$.next(true);
-  }
-
   setCategory(categoryId: string) {
     this.category_id = categoryId;
 
-    const category_capability_levels: {[category_capability_id: string]: InterfaceCategoryCapabilityLevel[]} = {};
+    const category_capability_levels: { [category_capability_id: string]: InterfaceCategoryCapabilityLevel[] } = {};
 
     this.categoryState$
-      .first()
       .subscribe((stateCategory: InterfaceStateCategory) => {
+        this.categories = stateCategory.categories;
+        if (this.category_id === '' && this.categories.length > 0) {
+          this.category_id = this.categories[0].id;
+        }
         this.category_capabilities = stateCategory
           .category_capabilities
           .filter((category_capability: InterfaceCategoryCapability) => {
-              return category_capability.category_id === this.category_id;
+            return category_capability.category_id === this.category_id;
           });
 
         this.category_capability_index = 0;
+        this.setProgress();
 
         this.category_capabilities
           .forEach((category_capability: InterfaceCategoryCapability) => {
@@ -74,5 +74,26 @@ export class TestComponent implements OnInit, OnDestroy {
           });
       });
     this.category_capability_levels = category_capability_levels;
+  }
+
+  nextQuestion() {
+    this.category_capability_index++;
+    this.setProgress();
+  }
+
+  previousQuestion() {
+    this.category_capability_index--;
+    this.setProgress();
+  }
+
+  setProgress() {
+    this.progress = (this.category_capability_index + 1) / (this.category_capabilities.length + 1) * 100;
+  }
+
+  ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.stop$.next(true);
   }
 }

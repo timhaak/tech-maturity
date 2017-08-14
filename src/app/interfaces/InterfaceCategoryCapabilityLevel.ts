@@ -1,9 +1,9 @@
 export interface InterfaceCategoryCapabilityLevel {
-  id: string | number | null;
+  id: string | null;
   created_at?: Date;
   updated_at?: Date;
-  category_id: string | number | null;
-  category_capability_id: string | number | null;
+  category_id: string | null;
+  category_capability_id: string | null;
   level: number;
   value: string;
   description?: string;
