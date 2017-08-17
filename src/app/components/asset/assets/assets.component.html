@@ -5,20 +5,23 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <table>
-        <thead>
-        <tr>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let asset of (assetState$ | async).assets">
-          <td>
-            <a  class="btn btn-outline-primary" routerLink="/test/{{asset.id}}" >{{ asset.name }}</a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <div class="row" *ngFor="let asset of (assetState$ | async).assets">
+        <div class="col">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="addAssetTest(asset.id)"
+          >
+            New Test {{ asset.name }}
+          </button>
+          <div class="row" *ngFor="let asset_test of (assetState$ | async).asset_tests">
+            <div class="col">
+              <a routerLink="/test/{{ asset_test.id }}">Test on {{ asset_test.created_at }}</a>
+              Ansered: {{ asset_test.answered_count }} / {{ (this.categoryState$ | async).category_capabilities.length }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col">
       <a class="btn btn-outline-primary btn-rounded" ripple-radius routerLink="/asset/add">

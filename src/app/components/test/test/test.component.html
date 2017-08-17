@@ -1,94 +1,107 @@
-<ol class="breadcrumb">
-  <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-  <li class="breadcrumb-item"><a routerLink="/asset">Assets</a></li>
-  <li class="breadcrumb-item active">Asset Test</li>
-</ol>
-<ul class="nav nav-pills nav-justified">
-  <li
-    class="nav-item" *ngFor="let category of categories"
-    (click)="setCategory(category.id)"
-  >
-    <a class="nav-link" [ngClass]="{'active': category.id == category_id}">{{ category.name }}</a>
-  </li>
-</ul>
-<div
-  *ngIf="category_capabilities[category_capability_index]"
-  class="row stylish-color text-white">
-  <div class="col-1">
-    <button
-      *ngIf="category_capability_index > 0"
-      type="button"
-      class="btn btn-default"
-      ripple-radius
-      (click)="previousQuestion()"
+<div *ngIf="asset_test">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item"><a routerLink="/asset">Assets</a></li>
+    <li class="breadcrumb-item active">Asset: <b>{{ asset?asset.name:'Loading' }}/</b></li>
+  </ol>
+  <ul class="nav nav-pills nav-justified">
+    <li
+      class="nav-item" *ngFor="let category of categories; let i = index;"
+      (click)="setCategory(category.id, i)"
     >
-      <i class="fa fa-arrow-left" aria-hidden="true"></i>
-    </button>
-  </div>
-  <div class="col align-items-center my-auto text-center">
-    <h3 class="my-auto">{{ category_capabilities[category_capability_index].name }}</h3>
-  </div>
-  <div class="col-1 text-right">
-    <button
-      *ngIf="category_capability_index < category_capabilities.length - 1"
-      type="button"
-      class="btn btn-info"
-      ripple-radius
-      (click)="nextQuestion()"
-    >
-      <i class="fa fa-arrow-right" aria-hidden="true"></i>
-    </button>
-  </div>
-</div>
-<div
-  class="progress"
->
+      <a class="nav-link" [ngClass]="{'active': category.id == category_id}">{{ category.name }}</a>
+    </li>
+  </ul>
   <div
-    class="progress-bar progress-bar-striped"
-    role="progressbar"
-    [style.width.%]="progress"
-    aria-valuenow="{{ progress }}"
-    aria-valuemin="0"
-    aria-valuemax="100"></div>
-</div>
-<table class="table table-striped table-bordered table-hover category-set-table">
-  <thead class="thead-inverse">
-  <tr>
-    <th>
-      Level
-    </th>
-    <th>
-      Recommended
-    </th>
-    <th>
-      Description
-    </th>
-  </tr>
-  </thead>
-  <tbody
     *ngIf="category_capabilities[category_capability_index]"
-  >
-  <tr
-    *ngFor="let category_capability_level of category_capability_levels[category_capabilities[category_capability_index].id]"
-    [ngClass]="{
-    'table-success': category_capabilities[category_capability_index].minimum_category_capability_level_id ===
-      category_capability_level.level
+    class="row stylish-color text-white">
+    <div class="col-1">
+      <button
+        *ngIf="category_capability_index > 0"
+        type="button"
+        class="btn btn-default"
+        ripple-radius
+        (click)="previousQuestion()"
+      >
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="col align-items-center my-auto text-center">
+      <h3 class="my-auto">{{ category_capabilities[category_capability_index].name }}</h3>
+    </div>
+    <div class="col-1 text-right">
+      <button
+        *ngIf="category_capability_index < category_capabilities.length - 1"
+        type="button"
+        class="btn btn-info"
+        ripple-radius
+        (click)="nextQuestion()"
+      >
+        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div
+        class="progress"
+      >
+        <div
+          class="progress-bar progress-bar-striped"
+          role="progressbar"
+          [style.width.%]="progress"
+          aria-valuenow="{{ progress }}"
+          aria-valuemin="0"
+          aria-valuemax="100"></div>
+      </div>
+    </div>
+    <div class="col-2">
+      {{ category_capability_index + 1 }} / {{ category_capabilities.length }}
+    </div>
+  </div>
+
+  <table class="table table-striped table-bordered table-hover category-set-table">
+    <thead class="thead-inverse">
+    <tr>
+      <th>
+        Level
+      </th>
+      <th>
+        Recommended
+      </th>
+      <th>
+        Description
+      </th>
+    </tr>
+    </thead>
+    <tbody
+      *ngIf="category_capabilities[category_capability_index]"
+    >
+    <tr
+      *ngFor="let category_capability_level of category_capability_levels[category_capabilities[category_capability_index].id]"
+      [ngClass]="{
+      'table-success': category_capabilities[category_capability_index].minimum_category_capability_level_id ===
+      category_capability_level.level &&
+      asset_test.capabilities[category_capability_level.category_capability_id] !== category_capability_level.id,
+      'table-row-active': asset_test.capabilities[category_capability_level.category_capability_id] === category_capability_level.id
     }"
-  >
-    <td>
-      {{ category_capability_level.level }}
-    </td>
-    <td>
+      (click)="setCapabilityValue(category_capability_level.category_capability_id, category_capability_level.id)"
+    >
+      <td>
+        {{ category_capability_level.level }}
+      </td>
+      <td>
       <span
         *ngIf="category_capabilities[category_capability_index].minimum_category_capability_level_id ===
       category_capability_level.level"
       >*</span>
-    </td>
-    <td>
-      {{ category_capability_level.value}}
-    </td>
-  </tr>
+      </td>
+      <td>
+        {{ category_capability_level.value}}
+      </td>
+    </tr>
 
-  </tbody>
+    </tbody>
 
-</table>
+  </table>
+</div>

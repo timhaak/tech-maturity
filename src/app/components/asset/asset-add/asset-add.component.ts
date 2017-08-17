@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {UUID} from 'angular2-uuid';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import * as assetAction from '../../../actions/asset.action';
@@ -48,7 +47,6 @@ export class AssetAddComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.form.id = UUID.UUID();
     this.store.dispatch(new assetAction.AssetAdd(this.form));
   }
 

@@ -23,12 +23,17 @@
 
 .table.table-hover.category-set-table {
   tr {
-    &:hover {
+    &:hover:not(.table-info) {
       td {
         background-color: bisque;
         cursor: pointer;
       }
     }
   }
+}
+
+.table-row-active {
+  @extend .table-info;
+  border: 2px solid black;
 }
 
