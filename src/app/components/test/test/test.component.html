@@ -59,6 +59,26 @@
       {{ category_capability_index + 1 }} / {{ category_capabilities.length }}
     </div>
   </div>
+  <div class="row">
+    <div
+      class="col"
+      *ngFor="let category_capability of category_capabilities; let i = index;"
+    >
+      <button
+        type="button"
+        class="btn btn-sm btn-block waves-light button-small"
+        [tooltip]="category_capability.name"
+        [ngClass]="{
+          'btn-success': asset_test.capabilities[category_capability.id],
+          'btn-secondary': !asset_test.capabilities[category_capability.id]
+        }"
+        (click)="setCategoryCapabilityId(category_capability.id)"
+        mdbRippleRadius
+      >
+        {{ i + 1}}
+      </button>
+    </div>
+  </div>
 
   <table class="table table-striped table-bordered table-hover category-set-table">
     <thead class="thead-inverse">

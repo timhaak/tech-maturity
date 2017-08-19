@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {find} from 'lodash';
+import {findIndex} from 'lodash';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/takeUntil';
 import {Observable} from 'rxjs/Observable';
@@ -129,7 +130,7 @@ export class TestComponent implements OnInit, OnDestroy {
 
   nextQuestion() {
     this.category_capability_index++;
-    if (this.category_capability_index > this.categories.length) {
+    if (this.category_capability_index > this.categories.length + 1) {
       this.setCategory(this.categories[this.category_index + 1].id);
     }
     this.setProgress();
@@ -137,6 +138,11 @@ export class TestComponent implements OnInit, OnDestroy {
 
   previousQuestion() {
     this.category_capability_index--;
+    this.setProgress();
+  }
+
+  setCategoryCapabilityId(category_capability_id: number) {
+    this.category_capability_index = findIndex(this.category_capabilities, { 'id': category_capability_id });
     this.setProgress();
   }
 

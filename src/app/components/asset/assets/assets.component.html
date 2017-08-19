@@ -5,15 +5,41 @@
 <div class="container">
   <div class="row">
     <div class="col">
+      <form
+        (ngSubmit)="onSubmitAddAssetTest()"
+        #settingsForm="ngForm"
+        *ngIf="(assetState$ | async).assets.length > 0"
+      >
+        <div class="form-group">
+          <label for="user_code" class="">
+            Assets
+          </label>
+          <select
+            class="form-control"
+            id="user_code"
+            name="form.user_code"
+            [(ngModel)]="form.asset_id"
+          >
+            <option
+              *ngFor="let asset of (assetState$ | async).assets;let itemIndex = index"
+              [value]="asset.id"
+              [attr.selected]="itemIndex == 0"
+            >
+              {{ asset.name }}
+            </option>
+          </select>
+        </div>
+
+        <button
+          *ngIf="!building_type_id"
+          class="btn btn-success"
+          [disabled]="!settingsForm.form.valid"
+        >
+          Start New Test
+        </button>
+      </form>
       <div class="row" *ngFor="let asset of (assetState$ | async).assets">
         <div class="col">
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            (click)="addAssetTest(asset.id)"
-          >
-            New Test {{ asset.name }}
-          </button>
           <div class="row" *ngFor="let asset_test of (assetState$ | async).asset_tests">
             <div class="col">
               <a routerLink="/test/{{ asset_test.id }}">Test on {{ asset_test.created_at }}</a>

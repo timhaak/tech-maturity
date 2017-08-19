@@ -1,7 +1,13 @@
 .progress {
   height: 15px;
-  margin: 1px;
+  margin: 4px;
+
   .progress-bar {
     height: 15px;
   }
+}
+
+.button-small {
+  margin: 1px;
+  padding: 2px;
 }
