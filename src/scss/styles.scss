@@ -33,7 +33,7 @@
 }
 
 .table-row-active {
-  @extend .table-info;
+  @extend .table-success;
   border: 2px solid black;
 }
 

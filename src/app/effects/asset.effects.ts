@@ -60,6 +60,22 @@ export class AssetEffects {
     .do(() => {
     });
 
+  @Effect({dispatch: false})
+  completeAssetTest$ = this.actions$
+    .ofType(AssetAction.ASSET_TEST_COMPLETE)
+    .withLatestFrom(this.store, (action: AssetTestAdd, storeState: InterfaceStateApp) => {
+      const assetTest = action.payload;
+      assetTest.completed_at = new Date();
+      this.dataService.updateAssetTest(assetTest)
+        .subscribe((updatedAssetTest: InterfaceAssetTest) => {
+          this.dataService.getAssetTests();
+          this.router
+            .navigate(['/asset']);
+        });
+    })
+    .do(() => {
+    });
+
   constructor(private actions$: Actions,
               private router: Router,
               private store: Store<InterfaceStateApp>,

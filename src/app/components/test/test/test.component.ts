@@ -1,8 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Store} from '@ngrx/store';
-import {find} from 'lodash';
-import {findIndex} from 'lodash';
+import {find, findIndex} from 'lodash';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/takeUntil';
 import {Observable} from 'rxjs/Observable';
@@ -107,7 +106,6 @@ export class TestComponent implements OnInit, OnDestroy {
             return category_capability.category_id === this.category_id;
           });
 
-        this.category_capability_index = 0;
         this.setProgress();
 
         this.category_capabilities
@@ -118,6 +116,14 @@ export class TestComponent implements OnInit, OnDestroy {
                 return category_capability_level.category_capability_id === category_capability.id;
               });
           });
+
+        if (!this.category_capability_index) {
+          this.category_capability_index = 0;
+        } else if (this.category_capability_index > this.category_capabilities.length ||
+          this.category_capability_index < 0) {
+          this.category_capability_index = this.category_capabilities.length - 1;
+        }
+        this.setProgress();
       });
     this.category_capability_levels = category_capability_levels;
   }
@@ -130,7 +136,8 @@ export class TestComponent implements OnInit, OnDestroy {
 
   nextQuestion() {
     this.category_capability_index++;
-    if (this.category_capability_index > this.categories.length + 1) {
+    if (this.category_capability_index > this.category_capabilities.length - 1) {
+      this.category_capability_index = 0;
       this.setCategory(this.categories[this.category_index + 1].id);
     }
     this.setProgress();
@@ -138,19 +145,46 @@ export class TestComponent implements OnInit, OnDestroy {
 
   previousQuestion() {
     this.category_capability_index--;
+    if (this.category_capability_index < 0) {
+      if (this.category_index > 0) {
+        this.setCategory(this.categories[this.category_index - 1].id);
+      }
+    }
     this.setProgress();
   }
 
   setCategoryCapabilityId(category_capability_id: number) {
-    this.category_capability_index = findIndex(this.category_capabilities, { 'id': category_capability_id });
+    this.category_capability_index = findIndex(this.category_capabilities, {'id': category_capability_id});
     this.setProgress();
   }
 
   setProgress() {
-    this.progress = (this.category_capability_index + 1) / (this.category_capabilities.length + 1) * 100;
+    this.progress = (this.category_capability_index + 1) / (this.category_capabilities.length) * 100;
+  }
+
+  testLevel(category_capability: InterfaceCategoryCapability) {
+    if (this.category_capability_levels[category_capability.id]) {
+      const minLevel = category_capability.minimum_category_capability_level_id;
+      const level = find(
+        this.category_capability_levels[category_capability.id],
+        {
+          id: this.asset_test.capabilities[category_capability.id],
+        });
+      if (minLevel > level.level) {
+        return -1;
+      } else if (minLevel === level.level) {
+        return 0;
+      }
+      return 1;
+    }
+    return null;
   }
 
   ngOnDestroy() {
     this.stop$.next(true);
+  }
+
+  completeTest() {
+    this.store.dispatch(new assetAction.AssetTestComplete(this.asset_test));
   }
 }
