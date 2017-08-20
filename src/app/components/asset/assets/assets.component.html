@@ -48,6 +48,12 @@
                   *ngIf="asset_test.completed_at"
                 >
                   Completed {{ asset_test.created_at | amTimeAgo }}
+                  <a
+                    class="btn btn-sm btn-default"
+                    [routerLink]="['/test_result/' + asset_test.id]"
+                  >
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                  </a>
                 </div>
                 <div
                   class="col"
@@ -62,7 +68,8 @@
                   </a>
                 </div>
                 <div class="col">
-                  Ansered: {{ asset_test.answered_count }} / {{ (this.categoryState$ | async).category_capabilities.length }}
+                  Ansered: {{ asset_test.answered_count }} / {{ (this.categoryState$ |
+                  async).category_capabilities.length }}
                 </div>
               </div>
             </div>

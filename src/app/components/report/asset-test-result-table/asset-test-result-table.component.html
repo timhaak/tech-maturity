@@ -1,0 +1,80 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+  <li class="breadcrumb-item"><a routerLink="/asset">Assets</a></li>
+  <li class="breadcrumb-item"><a [routerLink]="'/test_result/'+ asset_test_id">Assets Test Results</a></li>
+  <li class="breadcrumb-item active">Assets Test Results Table</li>
+</ol>
+<div
+  *ngIf="assetTest"
+>
+  <div
+    *ngFor="let category of categoryState.categories"
+  >
+    <div class="row">
+      <div class="col">
+        <h1>{{ category.name }}</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <table
+          class="table table-striped table-bordered table-hover table-condensed"
+        >
+          <thead class="thead-inverse">
+          <tr>
+            <th>
+              Capability
+            </th>
+            <th>
+              Min Level
+            </th>
+            <th class="level-column">
+              Level 1
+            </th>
+            <th class="level-column">
+              Level 2
+            </th>
+            <th class="level-column">
+              Level 3
+            </th>
+            <th class="level-column">
+              Level 4
+            </th>
+            <th class="level-column">
+              Level 5
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+            *ngFor="let category_capability of categoryState.category_capabilities"
+          >
+            <td>
+              {{ category_capability.name }}
+            </td>
+            <td>
+              {{ category_capability.minimum_category_capability_level_id }}
+            </td>
+            <td
+              *ngFor="let category_capability_levels of categoryState.category_capability_levels | filter:{category_capability_id: category_capability.id}"
+              [ngClass]="{
+                'bg-warning': category_capability.minimum_category_capability_level_id === category_capability_levels.level,
+                'bg-secondary': assetTest.capabilities[category_capability.id] === category_capability_levels.id
+              }"
+            >
+              {{ category_capability_levels.value }}
+            </td>
+            <td
+              *ngFor="let keepEven of (5 - (categoryState.category_capability_levels | filter:{category_capability_id: category_capability.id}).length) | range"
+            >
+            </td>
+          </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>

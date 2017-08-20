@@ -1,0 +1,28 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+  <li class="breadcrumb-item"><a routerLink="/asset">Assets</a></li>
+  <li class="breadcrumb-item active">Assets Test Results</li>
+</ol>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col text-center">
+      <a class="btn btn-default" [routerLink]="['/test_result_table/' + asset_test_id]">Table</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <app-asset-test-result-polar
+        *ngIf="assetTestResult"
+        [assetTestResult]="assetTestResult"
+      ></app-asset-test-result-polar>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <app-asset-test-result-chart
+        *ngIf="assetTestResult"
+        [assetTestResult]="assetTestResult"
+      ></app-asset-test-result-chart>
+    </div>
+  </div>
+</div>

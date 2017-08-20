@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <h1>{{assetTestResult.asset_type_name}}:{{ assetTestResult.asset_name }}</h1>
+  <div
+    class="line-graph text-center"
+    *ngIf="chartLabels.length > 0"
+  >
+    <canvas
+      baseChart
+      [legend]="true"
+      [options]="chartOptions"
+      [datasets]="chartData"
+      [labels]="chartLabels"
+      [chartType]="chartType"
+    ></canvas>
+  </div>
+</div>

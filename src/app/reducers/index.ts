@@ -1,12 +1,11 @@
-import {ActionReducer, ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {ActionReducer, ActionReducerMap, MetaReducer, createFeatureSelector, createSelector} from '@ngrx/store';
 import {InterfaceStateApp} from '../interfaces/InterfaceStateApp';
+import {InterfaceStateAsset} from '../interfaces/InterfaceStateAsset';
 import {InterfaceStateAuth} from '../interfaces/InterfaceStateAuth';
+import {InterfaceStateCategory} from '../interfaces/InterfaceStateCategory';
+import * as fromAsset from './asset.reducer';
 import * as fromAuth from './auth.reducer';
 import * as fromCategory from './category.reducer';
-import * as fromAsset from './asset.reducer';
-import {environment} from '../../environments/environment';
-import {InterfaceStateCategory} from '../interfaces/InterfaceStateCategory';
-import {InterfaceStateAsset} from '../interfaces/InterfaceStateAsset';
 
 export const reducers: ActionReducerMap<InterfaceStateApp> = {
   auth: fromAuth.reducer,
@@ -15,18 +14,16 @@ export const reducers: ActionReducerMap<InterfaceStateApp> = {
 };
 
 // console.log all actions
-export function logger(reducer: ActionReducer<InterfaceStateApp>): ActionReducer<any, any> {
-  return function(state: InterfaceStateApp, action: any): InterfaceStateApp {
-    console.log('state', state);
-    console.log('action', action);
+export function debug(reducer: ActionReducer<InterfaceStateApp>): ActionReducer<any, any> {
+  return function (state: InterfaceStateApp, action: any): InterfaceStateApp {
+    // console.log('state', state);
+    // console.log('action', action);
 
     return reducer(state, action);
   };
 }
 
-export const metaReducers: ActionReducer<any, any>[] = !environment.production
-  ? [logger]
-  : [];
+export const metaReducers: MetaReducer<any>[] = [debug];
 
 export const selectAuthState = createFeatureSelector<InterfaceStateAuth>('auth');
 export const selectCatergoryState = createFeatureSelector<InterfaceStateCategory>('category');

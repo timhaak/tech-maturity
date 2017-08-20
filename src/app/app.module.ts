@@ -10,7 +10,6 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {AsyncLocalStorageModule} from 'angular-async-local-storage';
 import {MDBBootstrapModule} from 'angular-bootstrap-md';
 import {MomentModule} from 'angular2-moment';
-import {ChartsModule} from 'ng2-charts';
 import {environment} from '../environments/environment';
 
 import {AppComponent} from './app.component';
@@ -21,8 +20,15 @@ import {BodyComponent} from './components/main/body/body.component';
 import {HeadComponent} from './components/main/head/head.component';
 import {HomeStatsComponent} from './components/main/home-stats/home-stats.component';
 import {HomeComponent} from './components/main/home/home.component';
+import {AssetTestResultChartComponent} from './components/report/asset-test-result-chart/asset-test-result-chart.component';
+import {AssetTestResultPolarComponent} from './components/report/asset-test-result-polar/asset-test-result-polar.component';
+import {AssetTestResultTableComponent} from './components/report/asset-test-result-table/asset-test-result-table.component';
+import {AssetTestResultComponent} from './components/report/asset-test-result/asset-test-result.component';
 import {TestComponent} from './components/test/test/test.component';
 import {AssetEffects} from './effects/asset.effects';
+import {FilterPipe} from './pipes/filter.pipe';
+import {FindPipe} from './pipes/find.pipe';
+import {RangePipe} from './pipes/range.pipe';
 
 import {metaReducers, reducers} from './reducers';
 import {AppRoutingModule} from './routes/app-routing.module';
@@ -33,11 +39,18 @@ import {DataService} from './services/data.service';
     AppComponent,
     AssetAddComponent,
     AssetsComponent,
+    AssetTestResultComponent,
+    AssetTestResultTableComponent,
+    AssetTestResultPolarComponent,
+    AssetTestResultChartComponent,
     BlankComponent,
     BodyComponent,
+    FilterPipe,
+    FindPipe,
     HeadComponent,
     HomeComponent,
     HomeStatsComponent,
+    RangePipe,
     TestComponent,
   ],
   imports: [
@@ -46,7 +59,6 @@ import {DataService} from './services/data.service';
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
-    ChartsModule,
     EffectsModule.forRoot([
       AssetEffects,
     ]),
