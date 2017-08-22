@@ -67,7 +67,10 @@ export class AssetTestResultComponent implements OnInit, OnDestroy {
   getData() {
     if (this.asset_test_id &&
       this.assetState &&
-      this.categoryState
+      this.assetState.asset_tests &&
+      this.categoryState &&
+      this.categoryState.categories &&
+      this.categoryState.category_capability_levels
     ) {
       this.assetTest = find(this.assetState.asset_tests, {id: this.asset_test_id});
 
@@ -106,49 +109,52 @@ export class AssetTestResultComponent implements OnInit, OnDestroy {
             capabilities: [],
           };
 
-          forEach(this.categoryState.category_capabilities, (capability: InterfaceCategoryCapability) => {
-            const capabilityResult = {
-              capability_name: capability.name,
-              score: 0,
-              current_level: -1,
-              minimum_category_capability_level_id: capability.minimum_category_capability_level_id,
-              current_level_value: '',
-              next_level_value: '',
-            };
+          this.categoryState
+            .category_capabilities
+            .filter(capability => capability.category_id === category.id)
+            .forEach((capability: InterfaceCategoryCapability) => {
+              const capabilityResult = {
+                capability_name: capability.name,
+                score: 0,
+                current_level: -1,
+                minimum_category_capability_level_id: capability.minimum_category_capability_level_id,
+                current_level_value: '',
+                next_level_value: '',
+              };
 
-            const currentLevelId = this.assetTest.capabilities[capability.id];
-            if (currentLevelId) {
-              const currentLevel = find(this.categoryState.category_capability_levels, {id: currentLevelId});
+              const currentLevelId = this.assetTest.capabilities[capability.id];
+              if (currentLevelId) {
+                const currentLevel = find(this.categoryState.category_capability_levels, {id: currentLevelId});
 
-              const nextLevel = find(this.categoryState.category_capability_levels, {
-                level: currentLevel.level + 1,
-                category_capability_id: currentLevel.category_capability_id,
-              });
+                const nextLevel = find(this.categoryState.category_capability_levels, {
+                  level: currentLevel.level + 1,
+                  category_capability_id: currentLevel.category_capability_id,
+                });
 
-              capabilityResult.capability_name = capability.name;
-              capabilityResult.score = currentLevel.level - capability.minimum_category_capability_level_id;
-              capabilityResult.current_level = currentLevel.level;
-              capabilityResult.current_level_value = currentLevel.value;
-              capabilityResult.next_level_value = nextLevel ? nextLevel.value : '';
+                capabilityResult.capability_name = capability.name;
+                capabilityResult.score = currentLevel.level - capability.minimum_category_capability_level_id;
+                capabilityResult.current_level = currentLevel.level;
+                capabilityResult.current_level_value = currentLevel.value;
+                capabilityResult.next_level_value = nextLevel ? nextLevel.value : '';
 
-              categoryResult.total_score += capabilityResult.score;
-              categoryResult.total_score_normalised += capabilityResult.current_level;
-              categoryResult.total_expected_score_normalised += capabilityResult.minimum_category_capability_level_id;
+                categoryResult.total_score += capabilityResult.score;
+                categoryResult.total_score_normalised += capabilityResult.current_level;
+                categoryResult.total_expected_score_normalised += capabilityResult.minimum_category_capability_level_id;
 
-              if (capabilityResult.score > 0) {
-                categoryResult.total_above++;
-              } else if (capabilityResult.score < 0) {
-                categoryResult.total_bellow++;
+                if (capabilityResult.score > 0) {
+                  categoryResult.total_above++;
+                } else if (capabilityResult.score < 0) {
+                  categoryResult.total_bellow++;
+                } else {
+                  categoryResult.total_equal++;
+                }
+
               } else {
-                categoryResult.total_equal++;
+                categoryResult.total_skipped++;
               }
-
+              categoryResult.total_questions++;
               categoryResult.capabilities.push(capabilityResult);
-            } else {
-              categoryResult.total_skipped++;
-            }
-            categoryResult.total_questions++;
-          });
+            });
 
           this.assetTestResult.total_score += categoryResult.total_score;
           this.assetTestResult.total_score_normalised += categoryResult.total_score_normalised;
@@ -160,7 +166,6 @@ export class AssetTestResultComponent implements OnInit, OnDestroy {
           this.assetTestResult.total_equal += categoryResult.total_equal;
           this.assetTestResult.categories.push(categoryResult);
         });
-        console.log(this.assetTestResult);
       }
     }
   }

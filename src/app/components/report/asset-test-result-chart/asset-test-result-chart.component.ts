@@ -26,6 +26,17 @@ export class AssetTestResultChartComponent implements OnInit, OnChanges {
         {
           ticks: {
             autoSkip: false,
+            maxRotation: 45,
+            minRotation: 45
+          },
+        },
+      ],
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+            min: -3,
+            max: 3,
           },
         },
       ],
@@ -36,7 +47,8 @@ export class AssetTestResultChartComponent implements OnInit, OnChanges {
   constructor() {
   }
 
-  ngOnInit() {const radarChartLabels = [];
+  ngOnInit() {
+    const radarChartLabels = [];
     const radarChartData = [];
 
     if (this.assetTestResult) {
@@ -53,7 +65,8 @@ export class AssetTestResultChartComponent implements OnInit, OnChanges {
     this.chartData[0].data = radarChartData;
   }
 
-  ngOnChanges() {}
+  ngOnChanges() {
+  }
 
 
 }

@@ -138,7 +138,11 @@ export class TestComponent implements OnInit, OnDestroy {
     this.category_capability_index++;
     if (this.category_capability_index > this.category_capabilities.length - 1) {
       this.category_capability_index = 0;
-      this.setCategory(this.categories[this.category_index + 1].id);
+      if (this.categories[this.category_index + 1]) {
+        this.setCategory(this.categories[this.category_index + 1].id);
+      } else {
+        this.setCategory(this.categories[0].id);
+      }
     }
     this.setProgress();
   }

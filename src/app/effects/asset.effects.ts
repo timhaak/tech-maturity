@@ -39,7 +39,6 @@ export class AssetEffects {
     .withLatestFrom(this.store, (action: AssetTestAdd, storeState: InterfaceStateApp) => {
       this.dataService.addAssetTest(action.payload)
         .subscribe((newAssetTest: InterfaceAssetTest) => {
-          console.log(newAssetTest);
           this.dataService.getAssetTests();
           this.router
             .navigate(['/test/' + newAssetTest.id]);
