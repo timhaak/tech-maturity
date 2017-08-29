@@ -204,6 +204,23 @@ export class DataService implements OnDestroy {
       });
   }
 
+  postBackupFile(file: File) {
+    const headers = new Headers();
+
+    const requestOptions: RequestOptionsArgs = {
+      headers: headers,
+    };
+
+    const formData: FormData = new FormData();
+    formData.append('tmConfig', file, file.name);
+
+    return this.http
+      .post(ConstantUrls.config_upload, formData, requestOptions)
+      .map((res: Response) => res.json())
+      .catch(this.handleError.bind(this))
+      .takeUntil(this.stop$);
+  }
+
   initialise() {
     this.getAssetType();
     this.getCategory();

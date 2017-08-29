@@ -6,4 +6,5 @@ export const ConstantUrls = {
   category: '/api/category',
   category_capability: '/api/category_capability',
   category_capability_level: '/api/category_capability_level',
+  config_upload: '/api/config_upload',
 };

@@ -8,6 +8,7 @@ import {AuthGuard} from '../guards/auth.guard';
 import {TestComponent} from '../components/test/test/test.component';
 import {AssetTestResultComponent} from '../components/report/asset-test-result/asset-test-result.component';
 import {AssetTestResultTableComponent} from '../components/report/asset-test-result-table/asset-test-result-table.component';
+import {BackupComponent} from '../components/backup/backup/backup.component';
 
 export const appRoutes: Routes = [
   {
@@ -23,6 +24,11 @@ export const appRoutes: Routes = [
   {
     path: 'asset/add',
     component: AssetAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'backup',
+    component: BackupComponent,
     canActivate: [AuthGuard],
   },
   {

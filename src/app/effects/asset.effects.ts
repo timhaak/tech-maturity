@@ -11,7 +11,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toArray';
 import 'rxjs/add/operator/withLatestFrom';
 import * as AssetAction from '../actions/asset.action';
-import {AssetAdd, AssetTestAdd} from '../actions/asset.action';
+import {AssetAdd, AssetTestAdd, BackupUpload} from '../actions/asset.action';
 import {InterfaceAsset} from '../interfaces/InterfaceAsset';
 import {InterfaceAssetTest} from '../interfaces/InterfaceAssetTest';
 import {InterfaceStateApp} from '../interfaces/InterfaceStateApp';
@@ -70,6 +70,20 @@ export class AssetEffects {
           this.dataService.getAssetTests();
           this.router
             .navigate(['/asset']);
+        });
+    })
+    .do(() => {
+    });
+
+  @Effect({dispatch: false})
+  uploadBackup = this.actions$
+    .ofType(AssetAction.BACKUP_UPLOAD)
+    .withLatestFrom(this.store, (action: BackupUpload, storeState: InterfaceStateApp) => {
+      this.dataService.postBackupFile(action.payload)
+        .subscribe((res: any) => {
+          this.dataService.initialise();
+          this.router
+            .navigate(['/']);
         });
     })
     .do(() => {

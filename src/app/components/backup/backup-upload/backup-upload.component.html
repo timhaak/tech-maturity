@@ -1,0 +1,21 @@
+  <div class="form-group row">
+    <h1>Upload data backup</h1>
+  </div>
+  <div class="form-group row">
+    <ng2-file-input
+      [drop-text]="'Drop json file here'"
+      [browse-text]="'Add Json'"
+      [multiple]="false"
+      [extensions]="validImageMimeTypes"
+      [show-previews]="true"
+      (onAction)="onFileChange($event)"
+    ></ng2-file-input>
+  </div>
+  <button
+    type="button"
+    class="btn btn-success"
+    [disabled]="!enableButton"
+    (click)="submitFile()"
+  >
+    Apply
+  </button>

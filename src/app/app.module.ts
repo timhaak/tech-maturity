@@ -33,6 +33,10 @@ import {RangePipe} from './pipes/range.pipe';
 import {metaReducers, reducers} from './reducers';
 import {AppRoutingModule} from './routes/app-routing.module';
 import {DataService} from './services/data.service';
+import { BackupComponent } from './components/backup/backup/backup.component';
+import { BackupDownloadComponent } from './components/backup/backup-download/backup-download.component';
+import { BackupUploadComponent } from './components/backup/backup-upload/backup-upload.component';
+import { Ng2FileInputModule } from 'ng2-file-input';
 
 @NgModule({
   declarations: [
@@ -52,6 +56,9 @@ import {DataService} from './services/data.service';
     HomeStatsComponent,
     RangePipe,
     TestComponent,
+    BackupComponent,
+    BackupDownloadComponent,
+    BackupUploadComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -66,6 +73,7 @@ import {DataService} from './services/data.service';
     HttpModule,
     MDBBootstrapModule.forRoot(),
     MomentModule,
+    Ng2FileInputModule.forRoot(),
     StoreModule.forRoot(reducers, {metaReducers}),
     !environment.production ? StoreDevtoolsModule.instrument({maxAge: 2}) : [],
   ],
