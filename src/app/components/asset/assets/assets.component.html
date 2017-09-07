@@ -40,36 +40,42 @@
       </form>
       <div class="row" *ngFor="let asset of (assetState$ | async).assets">
         <div class="col">
-          <div class="row" *ngFor="let asset_test of (assetState$ | async).asset_tests">
+          <div class="row">
+            <h3>{{ asset.name }}</h3></div>
+          <div class="row">
             <div class="col">
-              <div class="row">
-                <div
-                  class="col"
-                  *ngIf="asset_test.completed_at"
-                >
-                  Completed {{ asset_test.created_at | amTimeAgo }}
-                  <a
-                    class="btn btn-sm btn-default"
-                    [routerLink]="['/test_result/' + asset_test.id]"
-                  >
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                  </a>
-                </div>
-                <div
-                  class="col"
-                  *ngIf="!asset_test.completed_at"
-                >
-                  Started {{ asset_test.created_at | amTimeAgo }}
-                  <a
-                    class="btn btn-info btn-sm"
-                    routerLink="/test/{{ asset_test.id }}"
-                  >
-                    Continue
-                  </a>
-                </div>
-                <div class="col">
-                  Ansered: {{ asset_test.answered_count }} / {{ (this.categoryState$ |
-                  async).category_capabilities.length }}
+              <div class="row" *ngFor="let asset_test of (assetState$ | async).asset_tests">
+                <div class="col" *ngIf="asset_test.asset_id === asset.id">
+                  <div class="row">
+                    <div
+                      class="col"
+                      *ngIf="asset_test.completed_at"
+                    >
+                      Completed {{ asset_test.completed_at | amTimeAgo }}
+                      <a
+                        class="btn btn-sm btn-default"
+                        [routerLink]="['/test_result/' + asset_test.id]"
+                      >
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                    <div
+                      class="col"
+                      *ngIf="!asset_test.completed_at"
+                    >
+                      Started {{ asset_test.created_at | amTimeAgo }}
+                      <a
+                        class="btn btn-info btn-sm"
+                        routerLink="/test/{{ asset_test.id }}"
+                      >
+                        Continue
+                      </a>
+                    </div>
+                    <div class="col">
+                      Ansered: {{ asset_test.answered_count }} / {{ (this.categoryState$ |
+                      async).category_capabilities.length }}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
