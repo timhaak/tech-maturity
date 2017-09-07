@@ -1,5 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
+import {find} from 'lodash';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import * as assetAction from '../../../actions/asset.action';
@@ -26,7 +28,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
     asset_id: null,
   };
 
-  constructor(private store: Store<InterfaceStateApp>) {
+  constructor(private store: Store<InterfaceStateApp>,
+              private router: Router) {
     this.assetState$ = this.store.select(fromRoot.selectAssetState).takeUntil(this.stop$);
     this.categoryState$ = this.store.select(fromRoot.selectCatergoryState).takeUntil(this.stop$);
     this.assetState$
@@ -50,12 +53,22 @@ export class AssetsComponent implements OnInit, OnDestroy {
   }
 
   onSubmitAddAssetTest() {
-    const assetTest: InterfaceAssetTest = {
+    const activeAssetTest: InterfaceAssetTest = find(this.assetState.asset_tests, {
       asset_id: this.form.asset_id,
-      answered_count: 0,
-      capabilities: {},
-    };
-    this.store.dispatch(new assetAction.AssetTestAdd(assetTest));
+      completed_at: null,
+    });
+
+    if (activeAssetTest) {
+      this.router.navigate(['/test/' + activeAssetTest.id])
+        .catch(e => console.error);
+    } else {
+      const assetTest: InterfaceAssetTest = {
+        asset_id: this.form.asset_id,
+        answered_count: 0,
+        capabilities: {},
+      };
+      this.store.dispatch(new assetAction.AssetTestAdd(assetTest));
+    }
   }
 
   ngOnDestroy() {
