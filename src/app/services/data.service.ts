@@ -186,6 +186,19 @@ export class DataService implements OnDestroy {
       .takeUntil(this.stop$);
   }
 
+  deleteAssetTest(asset_test_id: string) {
+    const requestOptions: RequestOptionsArgs = {
+      headers: this.getHTTPHeaders(),
+    };
+
+
+    return this.http
+      .delete(`${ConstantUrls.asset_test}/${asset_test_id}`, requestOptions)
+      .map((res: Response) => res.json())
+      .catch(this.handleError.bind(this))
+      .takeUntil(this.stop$);
+  }
+
   getAssetTests() {
     const requestOptions: RequestOptionsArgs = {
       headers: this.getHTTPHeaders(),

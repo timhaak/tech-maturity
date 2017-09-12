@@ -8,6 +8,7 @@ export const ASSET_ADD = '[Asset] ADD';
 export const ASSETS_ADD = '[Asset] ADD All';
 export const ASSET_TESTS_ADD = '[Asset Test] ADD ALL';
 export const ASSET_TEST_ADD = '[Asset Test] ADD';
+export const ASSET_TEST_DEL = '[Asset Test] DEL';
 export const ASSET_TEST_UPDATE = '[Asset Test] UPDATE';
 export const ASSET_TEST_COMPLETE = '[Asset Test] COMPLETE';
 export const ASSET_TYPE_ADD = '[Asset Type] ADD';
@@ -36,6 +37,12 @@ export class AssetTestAdd implements Action {
   readonly type = ASSET_TEST_ADD;
 
   constructor(public payload: InterfaceAssetTest) {}
+}
+
+export class AssetTestDelete implements Action {
+  readonly type = ASSET_TEST_DEL;
+
+  constructor(public payload: string) {}
 }
 
 export class AssetTestUpdate implements Action {
@@ -67,6 +74,7 @@ export type Actions =
   | AssetsAdd
   | AssetTestsAdd
   | AssetTestAdd
+  | AssetTestDelete
   | AssetTestUpdate
   | AssetTestComplete
   | AssetTypeAdd

@@ -71,6 +71,10 @@ export class AssetsComponent implements OnInit, OnDestroy {
     }
   }
 
+  deleteTest(test_id: string) {
+    this.store.dispatch(new assetAction.AssetTestDelete(test_id));
+  }
+
   ngOnDestroy() {
     this.stop$.next(true);
   }

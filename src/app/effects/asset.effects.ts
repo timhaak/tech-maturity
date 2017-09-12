@@ -11,7 +11,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toArray';
 import 'rxjs/add/operator/withLatestFrom';
 import * as AssetAction from '../actions/asset.action';
-import {AssetAdd, AssetTestAdd, BackupUpload} from '../actions/asset.action';
+import {AssetAdd, AssetTestAdd, AssetTestDelete, BackupUpload} from '../actions/asset.action';
 import {InterfaceAsset} from '../interfaces/InterfaceAsset';
 import {InterfaceAssetTest} from '../interfaces/InterfaceAssetTest';
 import {InterfaceStateApp} from '../interfaces/InterfaceStateApp';
@@ -52,6 +52,18 @@ export class AssetEffects {
     .ofType(AssetAction.ASSET_TEST_UPDATE)
     .withLatestFrom(this.store, (action: AssetTestAdd, storeState: InterfaceStateApp) => {
       this.dataService.updateAssetTest(action.payload)
+        .subscribe((updatedAssetTest: InterfaceAssetTest) => {
+          this.dataService.getAssetTests();
+        });
+    })
+    .do(() => {
+    });
+
+  @Effect({dispatch: false})
+  deleteAssetTest$ = this.actions$
+    .ofType(AssetAction.ASSET_TEST_DEL)
+    .withLatestFrom(this.store, (action: AssetTestDelete, storeState: InterfaceStateApp) => {
+      this.dataService.deleteAssetTest(action.payload)
         .subscribe((updatedAssetTest: InterfaceAssetTest) => {
           this.dataService.getAssetTests();
         });

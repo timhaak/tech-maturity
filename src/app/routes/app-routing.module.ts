@@ -37,6 +37,11 @@ export const appRoutes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'test/:asset_test_id',
+    component: TestComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'test_result/:asset_test_id',
     component: AssetTestResultComponent,
     canActivate: [AuthGuard],
