@@ -52,6 +52,10 @@ export class AssetsComponent implements OnInit, OnDestroy {
     }
   }
 
+  test($event) {
+    console.log($event);
+  }
+
   onSubmitAddAssetTest() {
     const activeAssetTest: InterfaceAssetTest = find(this.assetState.asset_tests, {
       asset_id: this.form.asset_id,

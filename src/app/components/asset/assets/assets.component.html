@@ -11,17 +11,17 @@
         *ngIf="(assetState$ | async).assets.length > 0"
       >
         <div class="form-group">
-          <label for="user_code" class="">
-            Assets
+          <label for="asset_id" class="">
+            Sections
           </label>
           <select
             class="form-control"
-            id="user_code"
-            name="form.user_code"
+            id="asset_id"
+            name="form.asset_id"
             [(ngModel)]="form.asset_id"
           >
             <option
-              *ngFor="let asset of (assetState$ | async).assets;let itemIndex = index"
+              *ngFor="let asset of assetState.assets;let itemIndex = index"
               [value]="asset.id"
               [attr.selected]="itemIndex == 0"
             >
