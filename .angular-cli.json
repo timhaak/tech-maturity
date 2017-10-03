@@ -20,7 +20,7 @@
       "prefix": "app",
       "styles": [
         "scss/styles.scss",
-        "../node_modules/angular-bootstrap-md/scss/mdb.scss"
+        "../node_modules/angular-bootstrap-md/scss/mdb-free.scss"
       ],
       "scripts": [
         "../node_modules/chart.js/dist/Chart.js"
