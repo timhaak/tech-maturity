@@ -10,6 +10,7 @@ import {InterfaceStateApp} from '../../../interfaces/InterfaceStateApp';
 import {InterfaceStateAsset} from '../../../interfaces/InterfaceStateAsset';
 import {InterfaceStateCategory} from '../../../interfaces/InterfaceStateCategory';
 import * as fromRoot from '../../../reducers';
+import {InterfaceAsset} from '../../../interfaces/InterfaceAsset';
 
 @Component({
   selector: 'app-assets',
@@ -28,10 +29,15 @@ export class AssetsComponent implements OnInit, OnDestroy {
     asset_id: null,
   };
 
+  assetForm: InterfaceAsset = {
+    id: null,
+    name: null,
+  };
+
   constructor(private store: Store<InterfaceStateApp>,
               private router: Router) {
     this.assetState$ = this.store.select(fromRoot.selectAssetState).takeUntil(this.stop$);
-    this.categoryState$ = this.store.select(fromRoot.selectCatergoryState).takeUntil(this.stop$);
+    this.categoryState$ = this.store.select(fromRoot.selectCategoryState).takeUntil(this.stop$);
     this.assetState$
       .subscribe((assetState: InterfaceStateAsset) => {
         this.assetState = assetState;
@@ -50,10 +56,6 @@ export class AssetsComponent implements OnInit, OnDestroy {
       this.assetState.assets.length > 0) {
       this.form.asset_id = this.assetState.assets[0].id;
     }
-  }
-
-  test($event) {
-    console.log($event);
   }
 
   onSubmitAddAssetTest() {
@@ -77,6 +79,10 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
   deleteTest(test_id: string) {
     this.store.dispatch(new assetAction.AssetTestDelete(test_id));
+  }
+
+  onAssetAddSubmit() {
+    this.store.dispatch(new assetAction.AssetAdd(this.assetForm));
   }
 
   ngOnDestroy() {

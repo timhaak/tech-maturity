@@ -6,6 +6,7 @@ import {InterfaceStateCategory} from '../interfaces/InterfaceStateCategory';
 import * as fromAsset from './asset.reducer';
 import * as fromAuth from './auth.reducer';
 import * as fromCategory from './category.reducer';
+import {InterfaceAsset} from '../interfaces/InterfaceAsset';
 
 export const reducers: ActionReducerMap<InterfaceStateApp> = {
   auth: fromAuth.reducer,
@@ -26,7 +27,7 @@ export function debug(reducer: ActionReducer<InterfaceStateApp>): ActionReducer<
 export const metaReducers: MetaReducer<any>[] = [debug];
 
 export const selectAuthState = createFeatureSelector<InterfaceStateAuth>('auth');
-export const selectCatergoryState = createFeatureSelector<InterfaceStateCategory>('category');
+export const selectCategoryState = createFeatureSelector<InterfaceStateCategory>('category');
 export const selectAssetState = createFeatureSelector<InterfaceStateAsset>('asset');
 
 export const selectAuthStatusState = createSelector(
@@ -38,6 +39,5 @@ export const getLoggedIn = createSelector(selectAuthStatusState, fromAuth.getLog
 export const getUser = createSelector(selectAuthStatusState, fromAuth.getUser);
 
 export const getAssets = createSelector(selectAssetState, fromAsset.getAssets);
-export const getAssetTypes = createSelector(selectAssetState, fromAsset.getAssetTypes);
 
 

@@ -1,4 +1,6 @@
-<div class="row text-center">
+<div class="row text-center"
+     *ngIf="(assetState$ | async) && (assetState$ | async).assets"
+>
   <div class="col asset-home-block" (click)="gotoAsset()">
     <div class="row">
       <div class="col">
@@ -10,6 +12,65 @@
     <div class="row">
       <div class="col">
         <h1>{{ (assetState$ | async).assets.length }}</h1>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col align-content-center">
+        <form>
+          <div class="form-group">
+            <label for="assetGroupsDropdownId">Display Group:</label>
+
+            <select
+              class="form-control"
+              id="assetGroupsDropdownId"
+              name="assetGroupsDropdownId"
+              [(ngModel)]="assetGroupsDropdownId"
+              (change)="getData()"
+            >
+              <option
+                *ngFor="let option of assetGroupsDropdown;let itemIndex = index"
+                [value]="option.id"
+              >
+                {{option.name}}
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col align-content-center">
+        <div class="card">
+          <div class="card-header">
+            All Assets Selected
+          </div>
+          <div class="card-body">
+          <span
+            class="badge badge-primary"
+            *ngFor="let asset of displayedAssets"
+          >
+            {{ asset.name }}
+          </span>&nbsp;
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <app-asset-test-result-polar
+          *ngIf="groupAssetData"
+          [assetTestResult]="groupAssetData"
+        ></app-asset-test-result-polar>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <app-asset-test-result-chart
+          *ngIf="groupAssetData"
+          [assetTestResult]="groupAssetData"
+        ></app-asset-test-result-chart>
       </div>
     </div>
   </div>

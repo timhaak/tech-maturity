@@ -12,7 +12,7 @@ export class AssetTestResultChartComponent implements OnInit, OnChanges {
   public chartLabels: string[] = [];
 
   public chartData: any = [
-    {data: [], label: 'Maturity'},
+    {data: [], label: 'Value'},
   ];
   public chartType = 'line';
 
@@ -47,25 +47,28 @@ export class AssetTestResultChartComponent implements OnInit, OnChanges {
   constructor() {
   }
 
-  ngOnInit() {
-    const radarChartLabels = [];
-    const radarChartData = [];
-
-    if (this.assetTestResult) {
-      this.assetTestResult
-        .categories
-        .forEach((category) => {
-          category.capabilities.forEach((capability) => {
-            radarChartLabels.push(capability.capability_name);
-            radarChartData.push(capability.score);
-          });
-        });
-    }
-    this.chartLabels = radarChartLabels;
-    this.chartData[0].data = radarChartData;
-  }
+  ngOnInit() {}
 
   ngOnChanges() {
+    if (this.assetTestResult.categories.length > 0) {
+      const radarChartLabels = [];
+      const radarChartData = [];
+
+      console.log(this.assetTestResult);
+
+      if (this.assetTestResult) {
+        this.assetTestResult
+          .categories
+          .forEach((category) => {
+            category.capabilities.forEach((capability) => {
+              radarChartLabels.push(capability.capability_name);
+              radarChartData.push(capability.score);
+            });
+          });
+      }
+      this.chartLabels = radarChartLabels;
+      this.chartData[0].data = radarChartData;
+    }
   }
 
 

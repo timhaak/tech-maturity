@@ -1,9 +1,9 @@
 import {InterfaceAsset} from './InterfaceAsset';
-import {InterfaceAssetType} from './InterfaceAssetType';
 import {InterfaceAssetTest} from './InterfaceAssetTest';
+import {InterfaceAssetGroup} from './InterfaceAssetGroup';
 
 export interface InterfaceStateAsset {
-  asset_types: InterfaceAssetType[];
   assets: InterfaceAsset[];
   asset_tests: InterfaceAssetTest[];
+  asset_groups: InterfaceAssetGroup[];
 }

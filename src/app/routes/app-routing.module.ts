@@ -9,6 +9,8 @@ import {TestComponent} from '../components/test/test/test.component';
 import {AssetTestResultComponent} from '../components/report/asset-test-result/asset-test-result.component';
 import {AssetTestResultTableComponent} from '../components/report/asset-test-result-table/asset-test-result-table.component';
 import {BackupComponent} from '../components/backup/backup/backup.component';
+import {AssetGroupComponent} from '../components/asset-group/asset-group/asset-group.component';
+import {AssetGroupEditComponent} from '../components/asset-group/asset-group-edit/asset-group-edit.component';
 
 export const appRoutes: Routes = [
   {
@@ -24,6 +26,16 @@ export const appRoutes: Routes = [
   {
     path: 'asset/add',
     component: AssetAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'asset_group',
+    component: AssetGroupComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'asset_group/edit/:asset_group_id',
+    component: AssetGroupEditComponent,
     canActivate: [AuthGuard],
   },
   {

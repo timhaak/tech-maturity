@@ -1,7 +1,7 @@
 import {Action} from '@ngrx/store';
 import {InterfaceAsset} from '../interfaces/InterfaceAsset';
-import {InterfaceAssetType} from '../interfaces/InterfaceAssetType';
 import {InterfaceAssetTest} from '../interfaces/InterfaceAssetTest';
+import {InterfaceAssetGroup} from '../interfaces/InterfaceAssetGroup';
 
 
 export const ASSET_ADD = '[Asset] ADD';
@@ -11,7 +11,11 @@ export const ASSET_TEST_ADD = '[Asset Test] ADD';
 export const ASSET_TEST_DEL = '[Asset Test] DEL';
 export const ASSET_TEST_UPDATE = '[Asset Test] UPDATE';
 export const ASSET_TEST_COMPLETE = '[Asset Test] COMPLETE';
-export const ASSET_TYPE_ADD = '[Asset Type] ADD';
+export const ASSET_GROUP_ADD = '[Asset Group] ADD';
+export const ASSET_GROUP_DEL = '[Asset Group] DEL';
+export const ASSET_GROUPS_ADD = '[Asset Group] ADD ALL';
+export const ASSET_GROUP_ADD_ASSETS = '[Asset Group] ASSET_GROUP_ADD_ASSETS';
+export const ASSET_GROUP_ADD_SUB_GROUPS = '[Asset Group] ASSET_GROUP_ADD_SUB_GROUPS';
 export const BACKUP_UPLOAD = '[Backup] UPLOAD';
 
 
@@ -57,10 +61,40 @@ export class AssetTestComplete implements Action {
   constructor(public payload: InterfaceAssetTest) {}
 }
 
-export class AssetTypeAdd implements Action {
-  readonly type = ASSET_TYPE_ADD;
+export class AssetGroupAdd implements Action {
+  readonly type = ASSET_GROUP_ADD;
 
-  constructor(public payload: InterfaceAssetType[]) {}
+  constructor(public payload: string) {}
+}
+
+export class AssetGroupDel implements Action {
+  readonly type = ASSET_GROUP_DEL;
+
+  constructor(public payload: InterfaceAssetGroup) {}
+}
+
+export class AssetGroupsAdd implements Action {
+  readonly type = ASSET_GROUPS_ADD;
+
+  constructor(public payload: string) {}
+}
+
+export class AssetGroupAddAssets implements Action {
+  readonly type = ASSET_GROUP_ADD_ASSETS;
+
+  constructor(public payload: {
+    assetGroup: InterfaceAssetGroup,
+    assets: InterfaceAsset[],
+  }) {}
+}
+
+export class AssetGroupAddSubGroups implements Action {
+  readonly type = ASSET_GROUP_ADD_SUB_GROUPS;
+
+  constructor(public payload: {
+    assetGroup: InterfaceAssetGroup,
+    assetGroups: InterfaceAssetGroup[],
+  }) {}
 }
 
 export class BackupUpload implements Action {
@@ -77,6 +111,10 @@ export type Actions =
   | AssetTestDelete
   | AssetTestUpdate
   | AssetTestComplete
-  | AssetTypeAdd
+  | AssetGroupAdd
+  | AssetGroupDel
+  | AssetGroupsAdd
+  | AssetGroupAddAssets
+  | AssetGroupAddSubGroups
   | BackupUpload;
 

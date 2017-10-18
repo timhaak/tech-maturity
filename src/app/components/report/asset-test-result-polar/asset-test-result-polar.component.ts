@@ -13,7 +13,7 @@ export class AssetTestResultPolarComponent implements OnInit, OnChanges {
   public radarChartLabels: string[] = [];
 
   public radarChartData: any = [
-    {data: [], label: 'Maturity'},
+    {data: [], label: 'Value'},
     {data: [], label: 'Minimum'},
     {data: [], label: ''},
   ];
@@ -33,7 +33,6 @@ export class AssetTestResultPolarComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-
     const radarChartLabels = [];
     const radarChartData = [];
     const radarChartMinData = [];

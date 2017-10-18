@@ -18,21 +18,6 @@
       [(ngModel)]="form.name"
     >
   </div>
-  <div class="form-group">
-    <label for="asset_type_id">Asset Type</label>
-    <select
-      class="form-control"
-      id="asset_type_id"
-      name="form.asset_type_id"
-      [(ngModel)]="form.asset_type_id"
-    >
-      <option
-        *ngFor="let asset of (assetTypes$ | async)"
-        [value]="asset.id"
-      >{{ asset.name }}
-      </option>
-    </select>
-  </div>
   <button
     type="submit"
     class="btn btn-success"

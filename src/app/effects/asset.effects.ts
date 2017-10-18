@@ -11,8 +11,17 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/toArray';
 import 'rxjs/add/operator/withLatestFrom';
 import * as AssetAction from '../actions/asset.action';
-import {AssetAdd, AssetTestAdd, AssetTestDelete, BackupUpload} from '../actions/asset.action';
+import {
+  AssetAdd,
+  AssetGroupAdd, AssetGroupAddSubGroups,
+  AssetGroupAddAssets,
+  AssetGroupDel,
+  AssetTestAdd,
+  AssetTestDelete,
+  BackupUpload,
+} from '../actions/asset.action';
 import {InterfaceAsset} from '../interfaces/InterfaceAsset';
+import {InterfaceAssetGroup} from '../interfaces/InterfaceAssetGroup';
 import {InterfaceAssetTest} from '../interfaces/InterfaceAssetTest';
 import {InterfaceStateApp} from '../interfaces/InterfaceStateApp';
 import {DataService} from '../services/data.service';
@@ -96,6 +105,68 @@ export class AssetEffects {
           this.dataService.initialise();
           this.router
             .navigate(['/']);
+        });
+    })
+    .do(() => {
+    });
+
+  @Effect({dispatch: false})
+  addAssetGroup = this.actions$
+    .ofType(AssetAction.ASSET_GROUP_ADD)
+    .withLatestFrom(this.store, (action: AssetGroupAdd, storeState: InterfaceStateApp) => {
+
+      const newAssetGroup: InterfaceAssetGroup = {
+        name: action.payload,
+        assets: [],
+        sub_groups: [],
+      };
+
+      this.dataService.addAssetGroup(newAssetGroup)
+        .subscribe((res: any) => {
+          this.dataService.getAssetGroups();
+          this.router
+            .navigate(['/asset_group']);
+        });
+    })
+    .do(() => {
+    });
+
+  @Effect({dispatch: false})
+  delAssetGroup = this.actions$
+    .ofType(AssetAction.ASSET_GROUP_DEL)
+    .withLatestFrom(this.store, (action: AssetGroupDel, storeState: InterfaceStateApp) => {
+
+      this.dataService.delAssetGroup(action.payload)
+        .subscribe((res: any) => {
+          this.dataService.getAssetGroups();
+          this.router
+            .navigate(['/asset_group']);
+        });
+    })
+    .do(() => {
+    });
+
+  @Effect({dispatch: false})
+  addAssetGroupAssets = this.actions$
+    .ofType(AssetAction.ASSET_GROUP_ADD_ASSETS)
+    .withLatestFrom(this.store, (action: AssetGroupAddAssets, storeState: InterfaceStateApp) => {
+
+      this.dataService.addAssetGroupAssets(action.payload.assetGroup, action.payload.assets)
+        .subscribe((res: any) => {
+          this.dataService.getAssetGroups();
+        });
+    })
+    .do(() => {
+    });
+
+  @Effect({dispatch: false})
+  addAssetGroupSubGroups = this.actions$
+    .ofType(AssetAction.ASSET_GROUP_ADD_SUB_GROUPS)
+    .withLatestFrom(this.store, (action: AssetGroupAddSubGroups, storeState: InterfaceStateApp) => {
+
+      this.dataService.addAssetGroupSubGroups(action.payload.assetGroup, action.payload.assetGroups)
+        .subscribe((res: any) => {
+          this.dataService.getAssetGroups();
         });
     })
     .do(() => {

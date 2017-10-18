@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import * as assetAction from '../../../actions/asset.action';
 import {InterfaceAsset} from '../../../interfaces/InterfaceAsset';
-import {InterfaceAssetType} from '../../../interfaces/InterfaceAssetType';
 import {InterfaceStateApp} from '../../../interfaces/InterfaceStateApp';
 import {InterfaceStateAsset} from '../../../interfaces/InterfaceStateAsset';
 import * as fromRoot from '../../../reducers';
@@ -20,30 +19,19 @@ export class AssetAddComponent implements OnInit, OnDestroy {
 
   form: InterfaceAsset = {
     id: null,
-    asset_type_id: null,
     name: null,
   };
 
-  assetTypes$: Observable<InterfaceAssetType[]>;
   assetState$: Observable<InterfaceStateAsset>;
 
   constructor(private store: Store<InterfaceStateApp>) {
-    this.assetTypes$ = this.store
-      .select(fromRoot.getAssetTypes)
-      .takeUntil(this.stop$);
-
     this.assetState$ = this.store
       .select(fromRoot.selectAssetState)
       .takeUntil(this.stop$);
   }
 
   ngOnInit() {
-    this.assetState$
-      .subscribe((stateAsset: InterfaceStateAsset) => {
-        if (!this.form.asset_type_id && stateAsset.asset_types && stateAsset.asset_types.length > 0) {
-          this.form.asset_type_id = stateAsset.asset_types[0].id;
-        }
-      });
+
   }
 
   onSubmit() {

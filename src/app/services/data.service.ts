@@ -5,7 +5,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
-import {ASSET_TESTS_ADD, ASSET_TYPE_ADD, ASSETS_ADD} from '../actions/asset.action';
+import {ASSET_GROUP_ADD, ASSET_GROUPS_ADD, ASSET_TESTS_ADD, ASSETS_ADD} from '../actions/asset.action';
 import {
   ALL_DATA_ADD,
   CATEGORY_ADD,
@@ -15,11 +15,11 @@ import {
 import {ConstantUrls} from '../constants/ConstantUrls';
 import {InterfaceAllData} from '../interfaces/InterfaceAllData';
 import {InterfaceAsset} from '../interfaces/InterfaceAsset';
-import {InterfaceAssetType} from '../interfaces/InterfaceAssetType';
 import {InterfaceCategory} from '../interfaces/InterfaceCategory';
 import {InterfaceCategoryCapabilityLevel} from '../interfaces/InterfaceCategoryCapabilityLevel';
 import {InterfaceStateApp} from '../interfaces/InterfaceStateApp';
 import {InterfaceAssetTest} from '../interfaces/InterfaceAssetTest';
+import {InterfaceAssetGroup} from '../interfaces/InterfaceAssetGroup';
 
 @Injectable()
 export class DataService implements OnDestroy {
@@ -54,24 +54,6 @@ export class DataService implements OnDestroy {
         this.store.dispatch({
           type: ALL_DATA_ADD,
           payload: allData,
-        });
-      });
-  }
-
-  getAssetType() {
-    const requestOptions: RequestOptionsArgs = {
-      headers: this.getHTTPHeaders(),
-    };
-
-    return this.http
-      .get(ConstantUrls.asset_type, requestOptions)
-      .map((res: Response) => res.json())
-      .catch(this.handleError.bind(this))
-      .takeUntil(this.stop$)
-      .subscribe((assetTypes: InterfaceAssetType[]) => {
-        this.store.dispatch({
-          type: ASSET_TYPE_ADD,
-          payload: assetTypes,
         });
       });
   }
@@ -217,6 +199,82 @@ export class DataService implements OnDestroy {
       });
   }
 
+  getAssetGroups() {
+    const requestOptions: RequestOptionsArgs = {
+      headers: this.getHTTPHeaders(),
+    };
+
+    return this.http
+      .get(ConstantUrls.asset_group, requestOptions)
+      .map((res: Response) => res.json())
+      .catch(this.handleError.bind(this))
+      .takeUntil(this.stop$)
+      .subscribe((asset_groups: InterfaceAssetGroup[]) => {
+        this.store.dispatch({
+          type: ASSET_GROUPS_ADD,
+          payload: asset_groups,
+        });
+      });
+  }
+
+  addAssetGroup(asset_group: InterfaceAssetGroup) {
+    const requestOptions: RequestOptionsArgs = {
+      headers: this.getHTTPHeaders(),
+    };
+
+    return this.http
+      .post(ConstantUrls.asset_group, asset_group, requestOptions)
+      .map((res: Response) => res.json())
+      .catch(this.handleError.bind(this))
+      .takeUntil(this.stop$);
+  }
+
+  addAssetGroupAssets(assetGroup: InterfaceAssetGroup, assets: InterfaceAsset[]) {
+    const requestOptions: RequestOptionsArgs = {
+      headers: this.getHTTPHeaders(),
+    };
+
+    const assetIds = assets.map(asset => asset.id);
+
+    return this.http
+      .post(`${ConstantUrls.asset_group}/add_assets`, {
+        asset_group_id: assetGroup.id,
+        asset_ids: assetIds,
+      }, requestOptions)
+      .map((res: Response) => res.json())
+      .catch(this.handleError.bind(this))
+      .takeUntil(this.stop$);
+  }
+
+  addAssetGroupSubGroups(asset_group: InterfaceAssetGroup, sub_asset_groups: InterfaceAssetGroup[]) {
+    const requestOptions: RequestOptionsArgs = {
+      headers: this.getHTTPHeaders(),
+    };
+
+    const assetGroupSubGroupIds = sub_asset_groups.map(sub_asset_group => sub_asset_group.id);
+
+    return this.http
+      .post(`${ConstantUrls.asset_group}/add_asset_groups`, {
+        asset_group_id: asset_group.id,
+        asset_group_sub_group_ids: assetGroupSubGroupIds,
+      }, requestOptions)
+      .map((res: Response) => res.json())
+      .catch(this.handleError.bind(this))
+      .takeUntil(this.stop$);
+  }
+
+  delAssetGroup(assetGroup: InterfaceAssetGroup) {
+    const requestOptions: RequestOptionsArgs = {
+      headers: this.getHTTPHeaders(),
+    };
+
+    return this.http
+      .delete(`${ConstantUrls.asset_group}/${assetGroup.id}`, requestOptions)
+      .map((res: Response) => res.json())
+      .catch(this.handleError.bind(this))
+      .takeUntil(this.stop$);
+  }
+
   postBackupFile(file: File) {
     const headers = new Headers();
 
@@ -235,11 +293,11 @@ export class DataService implements OnDestroy {
   }
 
   initialise() {
-    this.getAssetType();
     this.getCategory();
     this.getCategoryCapability();
     this.getCategoryCapabilityLevel();
     this.getAssets();
+    this.getAssetGroups();
     this.getAssetTests();
   }
 

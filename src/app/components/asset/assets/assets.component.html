@@ -4,82 +4,87 @@
 </ol>
 <div class="container">
   <div class="row">
-    <div class="col">
-      <form
-        (ngSubmit)="onSubmitAddAssetTest()"
-        #settingsForm="ngForm"
-        *ngIf="(assetState$ | async).assets.length > 0"
-      >
-        <div class="form-group">
-          <label for="asset_id" class="">
-            <h2>Assets</h2>
-          </label>
-          <select
-            class="form-control"
-            id="asset_id"
-            name="form.asset_id"
-            [(ngModel)]="form.asset_id"
-          >
-            <option
-              *ngFor="let asset of assetState.assets;let itemIndex = index"
-              [value]="asset.id"
-              [attr.selected]="itemIndex == 0"
-            >
-              {{ asset.name }}
-            </option>
-          </select>
-        </div>
+    <div class="col-8">
 
-        <button
-          *ngIf="!building_type_id"
-          class="btn btn-success"
-          [disabled]="!settingsForm.form.valid"
-        >
-          Start New Test
-        </button>
-      </form>
-      <div class="row" *ngFor="let asset of (assetState$ | async).assets">
-        <div class="col">
-          <div class="row">
-            <h3>{{ asset.name }}</h3></div>
-          <div class="row">
+      <div class="card">
+        <div class="card-body">
+          <form
+            (ngSubmit)="onSubmitAddAssetTest()"
+            #settingsForm="ngForm"
+            *ngIf="(assetState$ | async).assets.length > 0"
+          >
+            <div class="form-group">
+              <label for="asset_id" class="">
+                <h2>Assets</h2>
+              </label>
+              <select
+                class="form-control"
+                id="asset_id"
+                name="form.asset_id"
+                [(ngModel)]="form.asset_id"
+              >
+                <option
+                  *ngFor="let asset of assetState.assets;let itemIndex = index"
+                  [value]="asset.id"
+                  [attr.selected]="itemIndex == 0"
+                >
+                  {{ asset.name }}
+                </option>
+              </select>
+            </div>
+
+            <button
+              *ngIf="!building_type_id"
+              class="btn btn-success"
+              [disabled]="!settingsForm.form.valid"
+            >
+              Start New Test
+            </button>
+          </form>
+          <div class="row" *ngFor="let asset of (assetState$ | async).assets">
             <div class="col">
-              <div class="row" *ngFor="let asset_test of (assetState$ | async).asset_tests">
-                <div class="col" *ngIf="asset_test.asset_id === asset.id">
-                  <div class="row">
-                    <div
-                      class="col"
-                      *ngIf="asset_test.completed_at"
-                    >
-                      Completed {{ asset_test.completed_at | amTimeAgo }}
-                      <a
-                        class="btn btn-sm btn-default"
-                        [routerLink]="['/test_result/' + asset_test.id]"
-                      >
-                        <i class="fa fa-eye" aria-hidden="true"></i>
-                      </a>
-                    </div>
-                    <div
-                      class="col"
-                      *ngIf="!asset_test.completed_at"
-                    >
-                      Started {{ asset_test.created_at | amTimeAgo }}
-                      <a
-                        class="btn btn-info btn-sm"
-                        routerLink="/test/{{ asset_test.id }}"
-                      >
-                        Continue
-                      </a>
-                      <a
-                        class="btn btn-danger btn-sm"
-                        (click)="deleteTest(asset_test.id)"
-                      >
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                      </a>
-                    </div>
-                    <div class="col">
-                      Answered: {{ asset_test.answered_count }} / {{ (this.categoryState$ |
-                      async).category_capabilities.length }}
+              <div class="row">
+                <h3>{{ asset.name }}</h3></div>
+              <div class="row">
+                <div class="col">
+                  <div class="row" *ngFor="let asset_test of (assetState$ | async).asset_tests">
+                    <div class="col" *ngIf="asset_test.asset_id === asset.id">
+                      <div class="row">
+                        <div
+                          class="col"
+                          *ngIf="asset_test.completed_at"
+                        >
+                          Completed {{ asset_test.completed_at | amTimeAgo }}
+                          <a
+                            class="btn btn-sm btn-default"
+                            [routerLink]="['/test_result/' + asset_test.id]"
+                          >
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                          </a>
+                        </div>
+                        <div
+                          class="col"
+                          *ngIf="!asset_test.completed_at"
+                        >
+                          Started {{ asset_test.created_at | amTimeAgo }}
+                          <a
+                            class="btn btn-info btn-sm"
+                            routerLink="/test/{{ asset_test.id }}"
+                          >
+                            Continue
+                          </a>
+                          <a
+                            class="btn btn-danger btn-sm"
+                            (click)="deleteTest(asset_test.id)"
+                          >
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </a>
+                        </div>
+                        <div class="col">
+                          Answered: {{ asset_test.answered_count }} / {{ (this.categoryState$ |
+                          async).category_capabilities.length }}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -89,11 +94,39 @@
         </div>
       </div>
     </div>
-    <div class="col-3">
-      <a class="btn btn-outline-primary btn-rounded" ripple-radius routerLink="/asset/add">
-        <i class="fa fa-plus-square" aria-hidden="true"></i>
-        Add Asset
-      </a>
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <form (ngSubmit)="onAssetAddSubmit()" #thisForm="ngForm">
+
+            <p class="h5 text-center">Add Asset</p>
+            <div
+              class="form-group md-form"
+            >
+              <label for="name">Asset Name</label>
+              <input
+                type="text"
+                id="name"
+                class="form-control"
+                name="assetForm.name"
+                required
+                mdbActive
+                [(ngModel)]="assetForm.name"
+              >
+            </div>
+            <button
+              type="submit"
+              class="btn btn-outline-primary btn-rounded"
+              mdbRippleRadius
+              [disabled]="!thisForm.form.valid"
+            >
+              <i class="fa fa-plus-square" aria-hidden="true"></i>
+              Add Asset
+            </button>
+
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>

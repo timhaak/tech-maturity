@@ -37,6 +37,10 @@ import { BackupComponent } from './components/backup/backup/backup.component';
 import { BackupDownloadComponent } from './components/backup/backup-download/backup-download.component';
 import { BackupUploadComponent } from './components/backup/backup-upload/backup-upload.component';
 import { Ng2FileInputModule } from 'ng2-file-input';
+import { AssetGroupComponent } from './components/asset-group/asset-group/asset-group.component';
+import { AssetGroupEditComponent } from './components/asset-group/asset-group-edit/asset-group-edit.component';
+import {DragulaModule} from 'ng2-dragula';
+import {TestDataService} from './services/test-data.service';
 
 @NgModule({
   declarations: [
@@ -59,6 +63,8 @@ import { Ng2FileInputModule } from 'ng2-file-input';
     BackupComponent,
     BackupDownloadComponent,
     BackupUploadComponent,
+    AssetGroupComponent,
+    AssetGroupEditComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -66,6 +72,7 @@ import { Ng2FileInputModule } from 'ng2-file-input';
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
+    DragulaModule,
     EffectsModule.forRoot([
       AssetEffects,
     ]),
@@ -79,6 +86,7 @@ import { Ng2FileInputModule } from 'ng2-file-input';
   ],
   providers: [
     DataService,
+    TestDataService,
   ],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA],

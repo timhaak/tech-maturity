@@ -1,0 +1,122 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+  <li class="breadcrumb-item"><a routerLink="/asset_group">Asset Groups</a></li>
+  <li
+    class="breadcrumb-item active"
+    *ngIf="assetGroup"
+  >
+    Asset Group: {{ assetGroup.name }}
+  </li>
+</ol>
+<div class="container"
+     *ngIf="assetGroup"
+>
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                Asset Group Assets
+              </div>
+              <div class="card-body">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col question-drag-col" [dragula]='"assetGroupAssetBag"'
+                         [dragulaModel]='assetGroupAssets'>
+                      <div
+                        *ngIf="assetGroupAssets.length === 0"
+                        class="sortable-placeholder"
+                      >
+                        Drag Here
+                      </div>
+                      <div *ngFor="let asset of assetGroupAssets">
+                        <div class="drag-active-item">
+                          {{asset.name}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col question-drag-col" [dragula]='"assetGroupAssetBag"'
+                         [dragulaModel]='assetsAvailable'>
+                      <div
+                        *ngIf="assetsAvailable.length === 0"
+                        class="sortable-placeholder"
+                      >
+                        Drag Here
+                      </div>
+                      <div *ngFor="let asset of assetsAvailable">
+                        <div class="drag-available-item">
+                          {{asset.name}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-header">
+                Asset Group Sub Groups
+              </div>
+              <div class="card-body">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col question-drag-col" [dragula]='"assetGroupSubGroupBag"'
+                         [dragulaModel]='assetGroupSubGroups'>
+                      <div
+                        *ngIf="assetGroupSubGroups.length === 0"
+                        class="sortable-placeholder"
+                      >
+                        Drag Here
+                      </div>
+                      <div *ngFor="let asset_group of assetGroupSubGroups">
+                        <div class="drag-active-item">
+                          {{asset_group.name}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col question-drag-col" [dragula]='"assetGroupSubGroupBag"'
+                         [dragulaModel]='assetsGroupsAvailable'>
+                      <div
+                        *ngIf="assetsGroupsAvailable.length === 0"
+                        class="sortable-placeholder"
+                      >
+                        Drag Here
+                      </div>
+                      <div *ngFor="let asset_group of assetsGroupsAvailable">
+                        <div class="drag-available-item">
+                          {{asset_group.name}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header">
+          All Assets Selected
+        </div>
+        <div class="card-body">
+          <span
+            class="badge badge-primary"
+            *ngFor="let asset of allAssets"
+          >
+            {{ asset.name }}
+          </span>&nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

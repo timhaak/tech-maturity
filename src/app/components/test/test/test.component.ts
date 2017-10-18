@@ -45,7 +45,7 @@ export class TestComponent implements OnInit, OnDestroy {
               private store: Store<InterfaceStateApp>) {
 
     this.categoryState$ = this.store
-      .select(fromRoot.selectCatergoryState)
+      .select(fromRoot.selectCategoryState)
       .takeUntil(this.stop$);
 
     this.assetState$ = this.store

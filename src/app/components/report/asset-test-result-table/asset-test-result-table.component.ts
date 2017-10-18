@@ -31,7 +31,7 @@ export class AssetTestResultTableComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute) {
 
     this.categoryState$ = this.store
-      .select(fromRoot.selectCatergoryState)
+      .select(fromRoot.selectCategoryState)
       .takeUntil(this.stop$);
 
     this.assetState$ = this.store
