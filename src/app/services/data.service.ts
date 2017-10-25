@@ -297,8 +297,8 @@ export class DataService implements OnDestroy {
     this.getCategoryCapability();
     this.getCategoryCapabilityLevel();
     this.getAssets();
-    this.getAssetGroups();
     this.getAssetTests();
+    this.getAssetGroups();
   }
 
   private handleError(error: any) {
